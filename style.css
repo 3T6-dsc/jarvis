@@ -1,0 +1,366 @@
+:root {
+    --primary: #00fff2;
+    --secondary: #001e3c;
+    --accent: #ff3d00;
+    --glow: 0 0 20px var(--primary);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(circle at center, #001e3c 0%, #000 100%);
+    font-family: 'Rajdhani', 'Arial', sans-serif;
+    color: var(--primary);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Effet de particules en arrière-plan */
+body::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(var(--primary) 1px, transparent 1px),
+        radial-gradient(var(--primary) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: 0 0, 25px 25px;
+    opacity: 0.1;
+    animation: backgroundMove 20s linear infinite;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.jarvis-interface {
+    width: 90vw;
+    max-width: 1200px;
+    height: 80vh;
+    background: rgba(0, 30, 60, 0.3);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    position: relative;
+    padding: 30px;
+    box-shadow: var(--glow);
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: auto 1fr auto;
+    gap: 20px;
+    animation: interfaceAppear 1s ease-out;
+}
+
+.hud-element {
+    position: absolute;
+}
+
+.circle {
+    border: 2px solid var(--primary);
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    overflow: hidden; /* Pour s'assurer que le globe reste dans le cercle */
+}
+
+.globe {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    transform-style: preserve-3d;
+    animation: rotateGlobe 20s linear infinite;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Centre le globe dans le cercle */
+}
+
+.globe-point {
+    position: absolute;
+    width: 4px; /* Points plus gros */
+    height: 4px; /* Points plus gros */
+    background: var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--primary);
+}
+
+@keyframes rotateGlobe {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Animation pour les anneaux autour du globe */
+.circle::before, .circle::after {
+    content: '';
+    position: absolute;
+    border: 1px solid var(--primary);
+    border-radius: 50%;
+    opacity: 0.5;
+}
+
+.circle::before {
+    width: 220px;
+    height: 220px;
+    animation: rotate 8s linear infinite;
+}
+
+.circle::after {
+    width: 180px;
+    height: 180px;
+    animation: rotate 5s linear infinite reverse;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.display-screen {
+    grid-column: 1;
+    grid-row: 2;
+    background: rgba(0, 30, 60, 0.4);
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    padding: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    position: relative;
+    overflow: hidden;
+}
+
+.display-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary);
+    animation: scanline 2s linear infinite;
+    opacity: 0.5;
+}
+
+#output {
+    color: var(--primary);
+    line-height: 1.6;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#output::-webkit-scrollbar {
+    width: 5px;
+}
+
+#output::-webkit-scrollbar-track {
+    background: rgba(0, 255, 242, 0.1);
+}
+
+#output::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+.command-center {
+    grid-column: 1;
+    grid-row: 3;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+#command-input {
+    flex: 1;
+    padding: 15px;
+    background: rgba(0, 30, 60, 0.4);
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+    color: var(--primary);
+    font-family: 'Share Tech Mono', monospace;
+    transition: all 0.3s ease;
+}
+
+#command-input:focus {
+    outline: none;
+    box-shadow: var(--glow);
+}
+
+button {
+    padding: 15px 30px;
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Share Tech Mono', monospace;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 255, 242, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:hover {
+    background: rgba(0, 255, 242, 0.1);
+    box-shadow: var(--glow);
+}
+
+.status-indicators {
+    grid-column: 2;
+    grid-row: 2 / 4;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(0, 30, 60, 0.2);
+    border-radius: 10px;
+    border: 1px solid var(--primary);
+}
+
+.indicator {
+    padding: 10px 15px;
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 30, 60, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.indicator::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--primary);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes interfaceAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes scanline {
+    0% { transform: translateY(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(100%); opacity: 0; }
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+@keyframes backgroundMove {
+    from { background-position: 0 0; }
+    to { background-position: 50px 50px; }
+}
+
+/* Animations pour les effets spéciaux */
+.special-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.armor {
+    background: radial-gradient(circle at center, var(--primary) 0%, transparent 70%);
+    animation: armorEffect 3s ease-out forwards;
+}
+
+@keyframes armorEffect {
+    0% { opacity: 0; transform: scale(0); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(2); }
+}
+
+/* Media Queries pour la responsivité */
+@media (max-width: 1024px) {
+    .jarvis-interface {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto auto;
+    }
+
+    .status-indicators {
+        grid-column: 1;
+        grid-row: 3;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .command-center {
+        grid-row: 4;
+    }
+}
+
+@media (max-width: 768px) {
+    .jarvis-interface {
+        width: 95vw;
+        height: 90vh;
+        padding: 15px;
+    }
+
+    .circle {
+        width: 150px;
+        height: 150px;
+    }
+}

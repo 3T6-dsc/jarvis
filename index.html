@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS Interface</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="jarvis-interface">
+            <div class="hud-element circle">
+                <!-- Le globe sera injecté ici par JavaScript -->
+            </div>
+            <div class="display-screen">
+                <div id="output">Initialisation de JARVIS...</div>
+            </div>
+            <div class="command-center">
+                <input type="text" id="command-input" placeholder="Donnez vos ordres, Monsieur Stark...">
+                <button onclick="processCommand()">EXÉCUTER</button>
+            </div>
+            <div class="status-indicators">
+                <div class="indicator power">
+                    <span>PUISSANCE</span>
+                    <span>100%</span>
+                </div>
+                <div class="indicator systems">
+                    <span>SYSTÈMES</span>
+                    <span>EN LIGNE</span>
+                </div>
+                <div class="indicator ai">
+                    <span>IA</span>
+                    <span>ACTIVE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
