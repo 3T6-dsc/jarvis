@@ -8,33 +8,103 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="titlebar">
+        <div class="titlebar-buttons">
+            <button id="minimize-btn">─</button>
+            <button id="maximize-btn">□</button>
+            <button id="close-btn">×</button>
+        </div>
+    </div>
     <div class="loading-screen">
-        <div class="loading-container">
-            <div class="arc-reactor">
-                <div class="arc-reactor-core"></div>
-                <div class="arc-reactor-ring ring1"></div>
-                <div class="arc-reactor-ring ring2"></div>
-                <div class="arc-reactor-ring ring3"></div>
+        <div class="holographic-container">
+            <!-- Cercles rotatifs -->
+            <div class="rotating-circles">
+                <div class="circle c1"></div>
+                <div class="circle c2"></div>
+                <div class="circle c3"></div>
             </div>
-            <div class="loading-text">
-                <span>I</span><span>N</span><span>I</span><span>T</span><span>I</span><span>A</span><span>L</span><span>I</span><span>S</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
-            </div>
-            <div class="loading-status">
-                <div class="status-bar">
-                    <div class="status-progress"></div>
+
+            <!-- Arc Reactor amélioré -->
+            <div class="advanced-reactor">
+                <div class="reactor-core">
+                    <div class="core-inner"></div>
+                    <div class="core-outer"></div>
+                    <div class="core-lines">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
                 </div>
-                <div class="status-percentage">0%</div>
+                <div class="reactor-rings">
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                </div>
             </div>
-            <div class="loading-details">
-                <div class="detail-line">Chargement des systèmes principaux...</div>
-                <div class="detail-line">Initialisation des protocoles de sécurité...</div>
-                <div class="detail-line">Connexion aux serveurs Stark Industries...</div>
+
+            <!-- Interface holographique -->
+            <div class="holo-interface">
+                <div class="holo-header">
+                    <div class="header-text">SYSTÈME JARVIS</div>
+                    <div class="header-line"></div>
+                </div>
+                
+                <!-- Écrans d'analyse -->
+                <div class="analysis-screens">
+                    <div class="screen left">
+                        <div class="screen-content">
+                            <div class="data-row"></div>
+                            <div class="data-row"></div>
+                            <div class="data-row"></div>
+                        </div>
+                    </div>
+                    <div class="screen center">
+                        <div class="loading-progress">
+                            <div class="progress-circle">
+                                <svg viewBox="0 0 100 100">
+                                    <circle class="progress-background" cx="50" cy="50" r="45"/>
+                                    <circle class="progress-bar" cx="50" cy="50" r="45"/>
+                                </svg>
+                                <div class="progress-text">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screen right">
+                        <div class="screen-content">
+                            <div class="data-row"></div>
+                            <div class="data-row"></div>
+                            <div class="data-row"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages système -->
+                <div class="system-messages">
+                    <div class="message-container">
+                        <div class="message primary">INITIALISATION DES SYSTÈMES PRINCIPAUX</div>
+                        <div class="message secondary"></div>
+                        <div class="message secondary"></div>
+                    </div>
+                </div>
+
+                <!-- Grille d'énergie -->
+                <div class="energy-grid">
+                    <div class="grid-container">
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                    </div>
+                </div>
             </div>
-            <div class="scanning-grid">
-                <div class="grid-line"></div>
-                <div class="grid-line"></div>
-                <div class="grid-line"></div>
-            </div>
+
+            <!-- Particules holographiques -->
+            <div class="holo-particles"></div>
         </div>
     </div>
     <div class="container">
@@ -117,5 +187,25 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script>
+        const { remote } = require('electron');
+
+        document.getElementById('minimize-btn').addEventListener('click', () => {
+            remote.getCurrentWindow().minimize();
+        });
+
+        document.getElementById('maximize-btn').addEventListener('click', () => {
+            const win = remote.getCurrentWindow();
+            if (win.isMaximized()) {
+                win.unmaximize();
+            } else {
+                win.maximize();
+            }
+        });
+
+        document.getElementById('close-btn').addEventListener('click', () => {
+            remote.getCurrentWindow().close();
+        });
+    </script>
 </body>
 </html>

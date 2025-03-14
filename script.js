@@ -1,50 +1,80 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const progressText = document.querySelector('.progress-text');
+    const progressBar = document.querySelector('.progress-bar');
+    const messages = document.querySelectorAll('.message.secondary');
     const loadingScreen = document.querySelector('.loading-screen');
-    const statusPercentage = document.querySelector('.status-percentage');
-    let progress = 0;
+    
+    // Messages système
+    const systemMessages = [
+        "Initialisation du noyau quantique...",
+        "Calibration des systèmes de défense...",
+        "Chargement des protocoles de sécurité...",
+        "Synchronisation des satellites...",
+        "Analyse des menaces potentielles...",
+        "Configuration de l'interface neurale...",
+        "Optimisation des ressources système...",
+        "Activation des boucliers énergétiques..."
+    ];
 
-    // Animation de la progression
+    let progress = 0;
+    let messageIndex = 0;
+
+    // Animation de progression
     const progressInterval = setInterval(() => {
         progress += 1;
-        statusPercentage.textContent = `${progress}%`;
-        
+        progressText.textContent = `${progress}%`;
+        progressBar.style.strokeDashoffset = 283 - (283 * progress / 100);
+
+        // Mise à jour des messages
+        if (progress % 12 === 0 && messageIndex < systemMessages.length) {
+            updateMessages();
+        }
+
         if (progress >= 100) {
             clearInterval(progressInterval);
             setTimeout(() => {
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
-                }, 500);
-            }, 1000);
+                }, 1000);
+            }, 500);
         }
     }, 30);
 
-    // Animation des détails
-    const details = [
-        "Initialisation des systèmes...",
-        "Chargement des protocoles de sécurité...",
-        "Connexion aux serveurs Stark Industries...",
-        "Calibration des capteurs...",
-        "Activation des systèmes de défense...",
-        "Synchronisation avec les satellites...",
-        "Vérification de l'intégrité des données...",
-        "Préparation de l'interface utilisateur..."
-    ];
+    // Mise à jour des messages système
+    function updateMessages() {
+        messages.forEach((message, index) => {
+            if (messageIndex + index < systemMessages.length) {
+                message.textContent = systemMessages[messageIndex + index];
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.style.opacity = '0.7';
+                }, index * 100);
+            }
+        });
+        messageIndex += 1;
+    }
 
-    const detailsContainer = document.querySelector('.loading-details');
-    let currentDetail = 0;
+    // Création des particules holographiques
+    createHoloParticles();
+});
 
-    const updateDetails = () => {
-        if (currentDetail < details.length) {
-            const detailLine = document.createElement('div');
-            detailLine.className = 'detail-line';
-            detailLine.textContent = details[currentDetail];
-            detailsContainer.appendChild(detailLine);
-            currentDetail++;
-        }
-    };
+function createHoloParticles() {
+    const container = document.querySelector('.holo-particles');
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 2}s`;
+        container.appendChild(particle);
+    }
+}
 
-    setInterval(updateDetails, 1000);
+// Animation des cellules d'énergie
+const gridCells = document.querySelectorAll('.grid-cell');
+gridCells.forEach((cell, index) => {
+    cell.style.animationDelay = `${index * 0.2}s`;
 });
 
 const GEMINI_API_KEY = 'AIzaSyCFqyEAYRQvTqfgxqQtPkmYQ_O4RwklcDQ';
