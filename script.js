@@ -1,3 +1,52 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const loadingScreen = document.querySelector('.loading-screen');
+    const statusPercentage = document.querySelector('.status-percentage');
+    let progress = 0;
+
+    // Animation de la progression
+    const progressInterval = setInterval(() => {
+        progress += 1;
+        statusPercentage.textContent = `${progress}%`;
+        
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1000);
+        }
+    }, 30);
+
+    // Animation des détails
+    const details = [
+        "Initialisation des systèmes...",
+        "Chargement des protocoles de sécurité...",
+        "Connexion aux serveurs Stark Industries...",
+        "Calibration des capteurs...",
+        "Activation des systèmes de défense...",
+        "Synchronisation avec les satellites...",
+        "Vérification de l'intégrité des données...",
+        "Préparation de l'interface utilisateur..."
+    ];
+
+    const detailsContainer = document.querySelector('.loading-details');
+    let currentDetail = 0;
+
+    const updateDetails = () => {
+        if (currentDetail < details.length) {
+            const detailLine = document.createElement('div');
+            detailLine.className = 'detail-line';
+            detailLine.textContent = details[currentDetail];
+            detailsContainer.appendChild(detailLine);
+            currentDetail++;
+        }
+    };
+
+    setInterval(updateDetails, 1000);
+});
+
 const GEMINI_API_KEY = 'AIzaSyCFqyEAYRQvTqfgxqQtPkmYQ_O4RwklcDQ';
 const JARVIS_CONTEXT = `Tu es JARVIS (Just A Rather Very Intelligent System), l'intelligence artificielle créée par Tony Stark. 
 Tu dois:
@@ -96,8 +145,17 @@ async function processCommand() {
 }
 
 function appendToOutput(text) {
-    output.innerHTML += `<div>${text}</div>`;
+    const div = document.createElement('div');
+    div.textContent = text;
+    output.appendChild(div);
     output.scrollTop = output.scrollHeight;
+    
+    // Effet de "fade in" pour le nouveau texte
+    div.style.opacity = '0';
+    requestAnimationFrame(() => {
+        div.style.transition = 'opacity 0.3s ease';
+        div.style.opacity = '1';
+    });
 }
 
 function updatePowerLevel() {
@@ -110,22 +168,20 @@ function updatePowerLevel() {
 }
 
 function executeSpecialEffect(command) {
-    switch(command) {
-        case 'armure':
-            createArmorEffect();
-            playSound('armor.mp3');
-            break;
-        case 'scan':
-            createScanEffect();
-            playSound('scan.mp3');
-            break;
-        case 'analyse':
-            createAnalysisEffect();
-            break;
-        case 'protocole':
-            createProtocolEffect();
-            break;
-    }
+    const effect = document.createElement('div');
+    effect.className = `special-effect ${command}`;
+    document.body.appendChild(effect);
+    
+    // Ajouter un son de confirmation
+    playSound('effect.mp3');
+    
+    // Faire vibrer légèrement l'interface
+    document.querySelector('.jarvis-interface').style.animation = 'shake 0.5s';
+    
+    setTimeout(() => {
+        effect.remove();
+        document.querySelector('.jarvis-interface').style.animation = '';
+    }, 1000);
 }
 
 function createArmorEffect() {
@@ -219,6 +275,12 @@ styleSheet.textContent = `
         70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
         100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
     }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(2px); }
+        75% { transform: translateX(-2px); }
+    }
 `;
 document.head.appendChild(styleSheet);
 
@@ -237,35 +299,57 @@ window.onload = async function() {
         appendToOutput('Utilisez "aide" pour voir les commandes disponibles.');
     }, 1000);
 };
-// Ajouter après l'initialisation existante
+// Suppression de la fonction createGlobe et de son appel
+// Supprimer ou commenter les lignes suivantes :
+/*
 function createGlobe() {
-    const globe = document.createElement('div');
-    globe.className = 'globe';
-    
-    const numPoints = 150; // Moins de points pour éviter la surcharge
-    const radius = 90; // Rayon légèrement réduit
-    
-    for (let i = 0; i < numPoints; i++) {
-        const theta = Math.random() * 2 * Math.PI;
-        const phi = Math.acos(2 * Math.random() - 1);
-        
-        const x = radius * Math.sin(phi) * Math.cos(theta);
-        const y = radius * Math.sin(phi) * Math.sin(theta);
-        const z = radius * Math.cos(phi);
-        
-        const point = document.createElement('div');
-        point.className = 'globe-point';
-        point.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
-        
-        // Augmentation de l'opacité minimale
-        const opacity = Math.max(0.3, (z + radius) / (2 * radius));
-        point.style.opacity = opacity;
-        
-        globe.appendChild(point);
-    }
-    
-    document.querySelector('.circle').appendChild(globe);
+    // ... code du globe ...
 }
 
-// Appeler la fonction après le chargement de la page
 window.addEventListener('load', createGlobe);
+*/
+function updateTime() {
+    const timeElement = document.querySelector('.time');
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('fr-FR', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    });
+    timeElement.textContent = timeString;
+}
+
+// Mettre à jour l'heure toutes les secondes
+setInterval(updateTime, 1000);
+
+// Ajouter après l'initialisation existante
+function updateMetrics() {
+    const metrics = document.querySelectorAll('.metric-value');
+    metrics.forEach(metric => {
+        const randomValue = Math.floor(Math.random() * 30) + 70; // Valeurs entre 70 et 100
+        metric.style.width = `${randomValue}%`;
+    });
+}
+
+// Mettre à jour les métriques toutes les 2 secondes
+setInterval(updateMetrics, 2000);
+
+// Animation du graphique
+function updateGraph() {
+    const path = document.querySelector('.graph-line');
+    let points = [];
+    for (let i = 0; i <= 5; i++) {
+        const x = i * 20;
+        const y = 20 + Math.sin(Date.now() * 0.001 + i) * 10;
+        points.push(`${x} ${y}`);
+    }
+    path.setAttribute('d', 'M' + points.join(' L'));
+}
+
+// Mettre à jour le graphique à chaque frame
+function animate() {
+    updateGraph();
+    requestAnimationFrame(animate);
+}
+
+animate();

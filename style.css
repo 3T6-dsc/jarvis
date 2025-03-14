@@ -3,6 +3,7 @@
     --secondary: #001e3c;
     --accent: #ff3d00;
     --glow: 0 0 20px var(--primary);
+    --dark-bg: rgba(0, 30, 60, 0.4);
 }
 
 * {
@@ -46,103 +47,32 @@ body::before {
 
 .jarvis-interface {
     width: 90vw;
-    max-width: 1200px;
-    height: 80vh;
+    max-width: 1400px;
+    height: 85vh;
     background: rgba(0, 30, 60, 0.3);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     border: 2px solid var(--primary);
     border-radius: 20px;
     position: relative;
     padding: 30px;
-    box-shadow: var(--glow);
+    box-shadow: var(--glow), inset 0 0 100px rgba(0, 255, 242, 0.1);
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr; /* Modification pour utiliser tout l'espace */
     grid-template-rows: auto 1fr auto;
-    gap: 20px;
+    gap: 25px;
     animation: interfaceAppear 1s ease-out;
-}
-
-.hud-element {
-    position: absolute;
-}
-
-.circle {
-    border: 2px solid var(--primary);
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1000px;
-    overflow: hidden; /* Pour s'assurer que le globe reste dans le cercle */
-}
-
-.globe {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    transform-style: preserve-3d;
-    animation: rotateGlobe 20s linear infinite;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%); /* Centre le globe dans le cercle */
-}
-
-.globe-point {
-    position: absolute;
-    width: 4px; /* Points plus gros */
-    height: 4px; /* Points plus gros */
-    background: var(--primary);
-    border-radius: 50%;
-    box-shadow: 0 0 5px var(--primary);
-}
-
-@keyframes rotateGlobe {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
-/* Animation pour les anneaux autour du globe */
-.circle::before, .circle::after {
-    content: '';
-    position: absolute;
-    border: 1px solid var(--primary);
-    border-radius: 50%;
-    opacity: 0.5;
-}
-
-.circle::before {
-    width: 220px;
-    height: 220px;
-    animation: rotate 8s linear infinite;
-}
-
-.circle::after {
-    width: 180px;
-    height: 180px;
-    animation: rotate 5s linear infinite reverse;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
 }
 
 .display-screen {
     grid-column: 1;
     grid-row: 2;
-    background: rgba(0, 30, 60, 0.4);
+    background: var(--dark-bg);
     border: 1px solid var(--primary);
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 20px;
-    font-family: 'Share Tech Mono', monospace;
     position: relative;
+    height: 100%;
+    min-height: 400px;
     overflow: hidden;
 }
 
@@ -153,7 +83,7 @@ body::before {
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--primary);
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
     animation: scanline 2s linear infinite;
     opacity: 0.5;
 }
@@ -164,6 +94,8 @@ body::before {
     height: 100%;
     overflow-y: auto;
     padding-right: 10px;
+    font-size: 1.1em; /* Police légèrement plus grande */
+    padding: 15px;
 }
 
 #output::-webkit-scrollbar {
@@ -179,22 +111,27 @@ body::before {
     border-radius: 5px;
 }
 
+/* Amélioration de la zone de commande */
 .command-center {
     grid-column: 1;
     grid-row: 3;
     display: flex;
     gap: 15px;
     align-items: center;
+    background: var(--dark-bg);
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid var(--primary);
 }
 
 #command-input {
     flex: 1;
-    padding: 15px;
-    background: rgba(0, 30, 60, 0.4);
+    background: rgba(0, 30, 60, 0.6);
     border: 1px solid var(--primary);
-    border-radius: 8px;
-    color: var(--primary);
-    font-family: 'Share Tech Mono', monospace;
+    padding: 15px 20px;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+    box-shadow: inset 0 0 20px rgba(0, 255, 242, 0.1);
     transition: all 0.3s ease;
 }
 
@@ -204,10 +141,12 @@ body::before {
 }
 
 button {
+    background: linear-gradient(45deg, var(--dark-bg), rgba(0, 255, 242, 0.1));
     padding: 15px 30px;
-    background: transparent;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px var(--primary);
     border: 1px solid var(--primary);
-    color: var(--primary);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -241,40 +180,79 @@ button:hover {
     box-shadow: var(--glow);
 }
 
+/* Amélioration des indicateurs de statut */
 .status-indicators {
     grid-column: 2;
     grid-row: 2 / 4;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     padding: 20px;
-    background: rgba(0, 30, 60, 0.2);
-    border-radius: 10px;
+    background: var(--dark-bg);
+    border-radius: 15px;
     border: 1px solid var(--primary);
 }
 
 .indicator {
-    padding: 10px 15px;
-    border: 1px solid var(--primary);
-    border-radius: 5px;
-    font-size: 14px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    background: rgba(0, 30, 60, 0.4);
+    padding: 15px;
+    background: rgba(0, 30, 60, 0.6);
+    border-radius: 10px;
     position: relative;
     overflow: hidden;
 }
 
-.indicator::after {
+.indicator::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 3px;
+    width: 100%;
+    height: 2px;
     background: var(--primary);
-    animation: pulse 2s ease-in-out infinite;
+    animation: pulse 2s infinite;
+}
+
+/* Nouveaux effets visuels */
+.corner-decoration {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--primary);
+    opacity: 0.5;
+}
+
+.corner-decoration:nth-child(1) { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+.corner-decoration:nth-child(2) { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+.corner-decoration:nth-child(3) { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+.corner-decoration:nth-child(4) { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+/* Animation pour le texte */
+@keyframes textGlow {
+    0% { text-shadow: 0 0 5px var(--primary); }
+    50% { text-shadow: 0 0 15px var(--primary); }
+    100% { text-shadow: 0 0 5px var(--primary); }
+}
+
+#output div {
+    animation: textGlow 2s infinite;
+    padding: 12px 0; /* Plus d'espace entre les messages */
+    border-bottom: 1px solid rgba(0, 255, 242, 0.1);
+    margin-bottom: 8px; /* Espacement entre les messages */
+}
+
+/* Amélioration des effets de survol */
+button:hover, #command-input:focus {
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.indicator:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 242, 0.2);
+    transition: all 0.3s ease;
 }
 
 @keyframes interfaceAppear {
@@ -336,7 +314,7 @@ button:hover {
 @media (max-width: 1024px) {
     .jarvis-interface {
         grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto auto;
+        grid-template-rows: auto minmax(400px, 1fr) auto auto;
     }
 
     .status-indicators {
@@ -363,4 +341,335 @@ button:hover {
         width: 150px;
         height: 150px;
     }
+}
+
+/* Nouvelle barre d'état supérieure */
+.top-status-bar {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: var(--dark-bg);
+    border: 1px solid var(--primary);
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.system-metrics {
+    display: flex;
+    gap: 20px;
+}
+
+.metric {
+    position: relative;
+    width: 150px;
+    height: 40px;
+}
+
+.metric-label {
+    font-size: 0.8em;
+    margin-bottom: 5px;
+    color: var(--primary);
+    text-transform: uppercase;
+}
+
+.metric-bar {
+    height: 4px;
+    background: rgba(0, 255, 242, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.metric-value {
+    height: 100%;
+    background: var(--primary);
+    width: 75%;
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.metric-value::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 5px;
+    background: white;
+    opacity: 0.8;
+    animation: scanEffect 2s linear infinite;
+}
+
+.system-status {
+    display: flex;
+    gap: 15px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    animation: blink 2s infinite;
+}
+
+.mini-graph {
+    width: 100px;
+    height: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.graph-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 2;
+    animation: graphAnimation 5s linear infinite;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+@keyframes scanEffect {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes blink {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+@keyframes graphAnimation {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Hexagone décoratif */
+.hexagon-container {
+    display: flex;
+    gap: 10px;
+}
+
+.hexagon {
+    width: 40px;
+    height: 46px;
+    background: var(--dark-bg);
+    position: relative;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    border: 1px solid var(--primary);
+    animation: rotateHex 4s linear infinite;
+}
+
+.hexagon::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--dark-bg);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+@keyframes rotateHex {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Écran de chargement */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--secondary);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-container {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Arc Reactor */
+.arc-reactor {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 40px;
+}
+
+.arc-reactor-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 50px var(--primary);
+    animation: pulse 2s infinite;
+}
+
+.arc-reactor-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    opacity: 0.5;
+}
+
+.ring1 {
+    width: 70px;
+    height: 70px;
+    animation: rotate 3s linear infinite;
+}
+
+.ring2 {
+    width: 100px;
+    height: 100px;
+    animation: rotate 4s linear infinite reverse;
+}
+
+.ring3 {
+    width: 130px;
+    height: 130px;
+    animation: rotate 5s linear infinite;
+}
+
+/* Texte de chargement */
+.loading-text {
+    font-size: 2em;
+    letter-spacing: 8px;
+    margin-bottom: 20px;
+}
+
+.loading-text span {
+    display: inline-block;
+    animation: textGlow 2s infinite;
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+/* Barre de progression */
+.loading-status {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.status-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(0, 255, 242, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.status-progress {
+    width: 0%;
+    height: 100%;
+    background: var(--primary);
+    position: relative;
+    animation: progress 3s ease-out forwards;
+}
+
+.status-percentage {
+    min-width: 60px;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* Détails du chargement */
+.loading-details {
+    width: 80%;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.detail-line {
+    margin: 8px 0;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.detail-line:nth-child(1) { animation-delay: 0.5s; }
+.detail-line:nth-child(2) { animation-delay: 1.5s; }
+.detail-line:nth-child(3) { animation-delay: 2.5s; }
+
+/* Grille de scan */
+.scanning-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.grid-line {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    height: 1px;
+    width: 100%;
+    opacity: 0.3;
+}
+
+.grid-line:nth-child(1) { top: 33%; animation: scanLine 2s infinite; }
+.grid-line:nth-child(2) { top: 66%; animation: scanLine 2s infinite 0.6s; }
+.grid-line:nth-child(3) { top: 100%; animation: scanLine 2s infinite 1.2s; }
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+}
+
+@keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes progress {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scanLine {
+    0% { transform: translateY(0) translateX(-100%); }
+    100% { transform: translateY(0) translateX(100%); }
+}
+
+@keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 5px var(--primary); }
+    50% { text-shadow: 0 0 20px var(--primary); }
 }

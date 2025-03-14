@@ -8,31 +8,111 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="loading-screen">
+        <div class="loading-container">
+            <div class="arc-reactor">
+                <div class="arc-reactor-core"></div>
+                <div class="arc-reactor-ring ring1"></div>
+                <div class="arc-reactor-ring ring2"></div>
+                <div class="arc-reactor-ring ring3"></div>
+            </div>
+            <div class="loading-text">
+                <span>I</span><span>N</span><span>I</span><span>T</span><span>I</span><span>A</span><span>L</span><span>I</span><span>S</span><span>A</span><span>T</span><span>I</span><span>O</span><span>N</span>
+            </div>
+            <div class="loading-status">
+                <div class="status-bar">
+                    <div class="status-progress"></div>
+                </div>
+                <div class="status-percentage">0%</div>
+            </div>
+            <div class="loading-details">
+                <div class="detail-line">Chargement des systèmes principaux...</div>
+                <div class="detail-line">Initialisation des protocoles de sécurité...</div>
+                <div class="detail-line">Connexion aux serveurs Stark Industries...</div>
+            </div>
+            <div class="scanning-grid">
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+                <div class="grid-line"></div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="jarvis-interface">
-            <div class="hud-element circle">
-                <!-- Le globe sera injecté ici par JavaScript -->
+            <!-- Nouvelle barre d'état supérieure -->
+            <div class="top-status-bar">
+                <div class="system-metrics">
+                    <div class="metric">
+                        <div class="metric-label">CPU Usage</div>
+                        <div class="metric-bar">
+                            <div class="metric-value"></div>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Memory</div>
+                        <div class="metric-bar">
+                            <div class="metric-value"></div>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Network</div>
+                        <div class="metric-bar">
+                            <div class="metric-value"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="system-status">
+                    <div class="mini-graph">
+                        <svg width="100" height="40">
+                            <path class="graph-line" d="M0 20 L20 10 L40 30 L60 15 L80 25 L100 20"></path>
+                        </svg>
+                    </div>
+                    <div class="hexagon-container">
+                        <div class="hexagon"></div>
+                        <div class="hexagon"></div>
+                        <div class="hexagon"></div>
+                    </div>
+                    <div class="status-indicators-mini">
+                        <div class="status-dot"></div>
+                        <div class="status-dot"></div>
+                        <div class="status-dot"></div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Décorations des coins -->
+            <div class="corner-decoration"></div>
+            <div class="corner-decoration"></div>
+            <div class="corner-decoration"></div>
+            <div class="corner-decoration"></div>
+
             <div class="display-screen">
+                <div class="screen-header">
+                    <span class="status-text">SYSTÈME ACTIF</span>
+                    <span class="time"></span>
+                </div>
                 <div id="output">Initialisation de JARVIS...</div>
             </div>
+
+            <div class="status-indicators">
+                <div class="indicator power">
+                    <span class="indicator-label">PUISSANCE</span>
+                    <span class="indicator-value">100%</span>
+                </div>
+                <div class="indicator systems">
+                    <span class="indicator-label">SYSTÈMES</span>
+                    <span class="indicator-value">EN LIGNE</span>
+                </div>
+                <div class="indicator ai">
+                    <span class="indicator-label">IA</span>
+                    <span class="indicator-value">ACTIVE</span>
+                </div>
+            </div>
+
             <div class="command-center">
                 <input type="text" id="command-input" placeholder="Donnez vos ordres, Monsieur Stark...">
                 <button onclick="processCommand()">EXÉCUTER</button>
-            </div>
-            <div class="status-indicators">
-                <div class="indicator power">
-                    <span>PUISSANCE</span>
-                    <span>100%</span>
-                </div>
-                <div class="indicator systems">
-                    <span>SYSTÈMES</span>
-                    <span>EN LIGNE</span>
-                </div>
-                <div class="indicator ai">
-                    <span>IA</span>
-                    <span>ACTIVE</span>
-                </div>
             </div>
         </div>
     </div>
